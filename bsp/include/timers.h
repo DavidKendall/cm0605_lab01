@@ -3,10 +3,20 @@
 
 typedef enum timerIdentifier {TIMER0, TIMER1} timerIdentifier_t;
 
-void initTimer0(pVoidFunc_t handler, uint32_t ticksPerSec);
-void startTimer0(void);
-void stopTimer0(void);
+void initTimer(timerIdentifier_t timer, pVoidFunc_t handler, uint32_t ticksPerSec);
+void startTimer(timerIdentifier_t timer);
+void stopTimer(timerIdentifier_t timer);
 
-inline void clearInterruptTimer0(void) {
-  T0IR = 1;
-}
+
+/* Use TIMER1 as an interval timer */
+
+/* Initialises TIMER1 for use as an interval timer */
+void initWatch(void);
+
+/* Starts the interval timer running */
+void startWatch(void);
+
+/* Stops the interval timer, captures its result,
+ * resets the timer and returns the result 
+ */
+uint32_t stopWatch(void);

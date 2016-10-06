@@ -1,7 +1,7 @@
 /*************************************************************************
  * An exercise in the use of interrupts
  *
- * CM0605 - Lab01
+ * CM0605 - Lab01S
  *
  **************************************************************************/
 #include <bsp.h>
@@ -12,6 +12,7 @@
 
 void displayValue(int);
 void timer0ISR(void);
+void timer1ISR(void);
 
 /*************************************************************************
  *
@@ -29,8 +30,10 @@ void main(void) {
    
 
    bspInit();                          /* Initialise board support package */
-   initTimer0(timer0ISR, 10);          /* Initialise timer 0 interrupt - parameter specifies number of ticks per second */
-   startTimer0();
+   initTimer(TIMER0, timer0ISR, 10);   /* Initialise timer 0 interrupt - parameter specifies number of ticks per second */
+   initTimer(TIMER1, timer1ISR, 1);
+   startTimer(TIMER0);
+   startTimer(TIMER1);
    __enable_interrupt();
 
    displayValue(counter);
@@ -58,5 +61,8 @@ void displayValue( int i ) {
 
 void timer0ISR(void) {
   ledToggle(USB_LINK_LED);  
-  clearInterruptTimer0();
+}
+
+void timer1ISR(void) {
+  ledToggle(USB_CONNECT_LED);  
 }
